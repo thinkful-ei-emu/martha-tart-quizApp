@@ -1,8 +1,12 @@
 class Question{
-  text = ''; //Question text
-  answers = ['', '']; //Array of strings, all possible answers for that question (each answer is unique)
-  correctAnswer = '';  //string that matches one of the answers in the above array 
-  userAnswer = ''; //answer provided by the user (on a click)
+  constructor(text, correctAnswer, wrongAnswers){
+    this.text = text;
+    this.correctAnswer=correctAnswer;
+    wrongAnswers.push(correctAnswer);
+    this.answers = wrongAnswers;
+    this.userAnswer = null;
+  }
+
 
 
   submitAnswer (answer) {
@@ -17,3 +21,5 @@ class Question{
   };
 
 }
+
+export default Question;
