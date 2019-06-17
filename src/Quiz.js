@@ -27,27 +27,28 @@ class Quiz {
           this.unasked.push(question);
         }
       });
-      console.log(questionData);
-      console.log(this.unasked);
-    // results.forEach(question => {
-    //   question
-    // })
-    
   }
 
+  updateScore(int){
+    if (int === 1){
+      this.score ++;
+    }
+  }
+
+  //trys to shift a question from unasked to asked array 
   nextQuestion (){
-    //shift a question from unasked to asked array 
-    //change score value
+    console.log(this.unasked);
+    console.log(this.asked);
+
+    
+    console.log(this.unasked.shift());
+    //this.asked.push(this.unasked.shift());
   }
-
-
 
   finishedQuiz (){
     //store score into scoreHistory
     //active to false
   }
-
-
 }
 
 export default Quiz;
