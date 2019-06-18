@@ -11,7 +11,7 @@ class QuizDisplay extends Renderer {
   getEvents() {
     return {
       'click .start-quiz': 'handleStart',
-      'click .submit-question': 'handleSubmitAnswer',
+      'submit .question-form': 'handleSubmitAnswer',
       'click .next-question': 'handleNextQuestion'
     };
   }
@@ -36,13 +36,16 @@ class QuizDisplay extends Renderer {
     return `
     <div>
       <h3>${this.model.getCurrentQuestion().text}</h3>
-      <form>
-        <input type="radio" name="answer" value="${this.model.getCurrentQuestion().answers[[0]]}">${this.model.getCurrentQuestion().answers[[0]]}<br>
-        <input type="radio" name="answer" value="${this.model.getCurrentQuestion().answers[[1]]}">${this.model.getCurrentQuestion().answers[[1]]}<br>
+      <form class="question-form">
+      <div class="answers">
+        <input type="radio" name="answer" value="${this.model.getCurrentQuestion().answers[[0]]}" required>${this.model.getCurrentQuestion().answers[[0]]}<br>
+        <input type="radio" name="answer" value="${this.model.getCurrentQuestion().answers[[1]]}" >${this.model.getCurrentQuestion().answers[[1]]}<br>
         <input type="radio" name="answer" value="${this.model.getCurrentQuestion().answers[[2]]}">${this.model.getCurrentQuestion().answers[[2]]}<br>
         <input type="radio" name="answer" value="${this.model.getCurrentQuestion().answers[[3]]}">${this.model.getCurrentQuestion().answers[[3]]}<br>
-        </form>
         <button class="submit-question" type="submit">Submit</button>
+        </div>
+        </form>
+
 
     </div>
         `;
@@ -53,9 +56,9 @@ class QuizDisplay extends Renderer {
     <div>
       <h3>${this.model.getCurrentQuestion().text}</h3>
       <p>You got it! The correct answer was:</p>
-      <p>${this.model.getCurrentQuestion().correctAnswer}</p>
+      <p class="right">${this.model.getCurrentQuestion().correctAnswer}</p>
     </div>
-    <button class="next-question" >Continue</button>
+    <button class="next-question">Continue</button>
     `;
   }
 
@@ -65,9 +68,9 @@ class QuizDisplay extends Renderer {
       <h3>${this.model.getCurrentQuestion().text}</h3>
       <p>Sorry, that's incorrect.</p>
       <p>You answered:</p>
-      <p>${this.model.getCurrentQuestion().userAnswer}</p>
+      <p class="wrong">${this.model.getCurrentQuestion().userAnswer}</p>
       <p>The correct answer was:</p>
-      <p>${this.model.getCurrentQuestion().correctAnswer}</p>
+      <p class="right">${this.model.getCurrentQuestion().correctAnswer}</p>
     </div>
     <button class="next-question">Continue</button>
     `;

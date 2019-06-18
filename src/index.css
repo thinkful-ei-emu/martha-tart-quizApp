@@ -1,0 +1,50 @@
+* { 
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  box-sizing: border-box;
+}
+
+span {
+  display: inline-block;
+  width: 32%;
+  text-align: center;
+}
+
+h3 {
+  text-align: center;
+  font-size: 28px;
+}
+form {
+  text-align: center;
+}
+
+.answers {
+  display: inline-block;
+  margin: auto;
+  text-align: left;
+}
+
+p {
+  text-align: center;
+}
+
+.wrong {
+  color: red;
+}
+
+.right {
+  color: green;
+}
+
+.buttons {
+  text-align: center;
+}
+
+button {
+  display: inline-block;
+  background-color:#2554C7;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
+  margin: auto;
+}
