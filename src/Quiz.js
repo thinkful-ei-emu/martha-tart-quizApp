@@ -30,13 +30,16 @@ class Quiz extends Model  {
     triviaApi.fetchQuestions(5)
       .then(data => {
         data.results.forEach(questionData => {
+          console.log('weve gotten questions')
           this.unasked.push(new Question(questionData));
           this.nextQuestion();
           this.active = true;
+          console.log(this.active);
+          this.update();
         });
       })
       .catch(err => console.log(err.message));
-    this.update();
+
   }
 
   getCurrentQuestion() {
@@ -62,6 +65,7 @@ class Quiz extends Model  {
   }
 
   answerCurrentQuestion(answerText) {
+    console.log('weve answered a question!');
     const currentQ = this.getCurrentQuestion();
     // Cannot find current question, so fail to answer
     if (!currentQ) return false;

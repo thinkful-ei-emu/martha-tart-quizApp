@@ -4,6 +4,7 @@ import Renderer from './lib/Renderer';
 class QuizDisplay extends Renderer {
   constructor(model, el) {
     super(model, el);
+    this.isAnswering = null;
   }
 
   //event handlers
@@ -36,12 +37,13 @@ class QuizDisplay extends Renderer {
     <div>
       <h3>${this.model.getCurrentQuestion().text}</h3>
       <form>
-        <input type="radio" name="answer" value="${this.model.getCurrentQuestion().answers[[0]]}>${this.model.getCurrentQuestion().answers[[0]]}<br>
-        <input type="radio" name="answer" value="${this.model.getCurrentQuestion().answers[[1]]}>${this.model.getCurrentQuestion().answers[[1]]}<br>
-        <input type="radio" name="answer" value="${this.model.getCurrentQuestion().answers[[2]]}>${this.model.getCurrentQuestion().answers[[2]]}<br>
-        <input type="radio" name="answer" value="${this.model.getCurrentQuestion().answers[[3]]}>${this.model.getCurrentQuestion().answers[[3]]}<br>
+        <input type="radio" name="answer" value="${this.model.getCurrentQuestion().answers[[0]]}">${this.model.getCurrentQuestion().answers[[0]]}<br>
+        <input type="radio" name="answer" value="${this.model.getCurrentQuestion().answers[[1]]}">${this.model.getCurrentQuestion().answers[[1]]}<br>
+        <input type="radio" name="answer" value="${this.model.getCurrentQuestion().answers[[2]]}">${this.model.getCurrentQuestion().answers[[2]]}<br>
+        <input type="radio" name="answer" value="${this.model.getCurrentQuestion().answers[[3]]}">${this.model.getCurrentQuestion().answers[[3]]}<br>
+        </form>
         <button class="submit-question" type="submit">Submit</button>
-      </form>
+
     </div>
         `;
   } 
@@ -83,6 +85,7 @@ class QuizDisplay extends Renderer {
 
   template() {
     let html = '';
+    console.log(this.model.active);
     
     if (this.model.asked.length === 0) {
       // Quiz has not started
@@ -90,32 +93,34 @@ class QuizDisplay extends Renderer {
     }
     //if asking a question display the question and answer choices
 
+    else if (this.model.getCurrentQuestion()) {
+      if (this.model.getCurrentQuestion().userAnswer === null){
+        html = this._activeQuestion();
+      }
 
+      //if user answered question then display feedback
+      else if(this.model.getCurrentQuestion().userAnswer) {
 
-    if (this.model.getCurrentQuestion().userAnswer === null){
-      html = this._activeQuestion();
+        if (this.model.getCurrentQuestion().getAnswerStatus() === 1) {
+          html = this._answeredQuestionCorrectly();
+        }
+        else {
+          html = this._answeredQuestionIncorrectly();
+        }
+      }
     }
 
-    // //if user answered question then display feedback
-    // if(this.model.getCurrentQuestion().userAnswer) {
-    //   if (this.model.getCurrentQuestion().getAnswerStatus() === 1) {
-    //     html = this._answeredQuestionCorrectly();
-    //   }
-    //   else {
-    //     html = this._answeredQuestionIncorrectly();
-    //   }
-    // }
-
-    // //if finished quiz display results  
-    // if (this.model.unasked.length === 0){
-    //   html = this._finishedQuiz();
-    // }
+    //if finished quiz display results  
+    else if (this.model.unasked.length === 0){
+      html = this._finishedQuiz();
+    }
     
     return html;
   }
 
   handleStart() {
-    this.model.startNewGame();
+    console.log('weve started the game!');
+    this.model.startGame();
   }
 
   handleNextQuestion(){
