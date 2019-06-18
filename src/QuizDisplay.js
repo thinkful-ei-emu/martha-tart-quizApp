@@ -5,6 +5,8 @@ class QuizDisplay extends Renderer {
   constructor(model, el) {
     super(model, el);
   }
+
+  //event handlers
   getEvents() {
     return {
       'click .start-quiz': 'handleStart',
@@ -85,24 +87,24 @@ class QuizDisplay extends Renderer {
       html = this._generateIntro();
     }
     //if asking a question display the question and answer choices 
-    if (this.model.getCurrentQuestion().userAnswer === null){
-      html = this._activeQuestion();
-    }
+    // if (this.model.getCurrentQuestion().userAnswer === null){
+    //   html = this._activeQuestion();
+    // }
 
-    //if user answered question then display feedback
-    if(this.model.getCurrentQuestion().userAnswer) {
-      if (this.model.getCurrentQuestion().getAnswerStatus() === 1) {
-        html = this._answeredQuestionCorrectly();
-      }
-      else {
-        html = this._answeredQuestionIncorrectly();
-      }
-    }
+    // //if user answered question then display feedback
+    // if(this.model.getCurrentQuestion().userAnswer) {
+    //   if (this.model.getCurrentQuestion().getAnswerStatus() === 1) {
+    //     html = this._answeredQuestionCorrectly();
+    //   }
+    //   else {
+    //     html = this._answeredQuestionIncorrectly();
+    //   }
+    // }
 
-    //if finished quiz display results  
-    if (this.model.unasked.length === 0){
-      html = this._finishedQuiz();
-    }
+    // //if finished quiz display results  
+    // if (this.model.unasked.length === 0){
+    //   html = this._finishedQuiz();
+    // }
     
     return html;
   }
