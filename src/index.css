@@ -4,7 +4,8 @@
 }
 
 span {
-  display: inline-block;
+  display: block;
+  margin: auto;
   width: 32%;
   text-align: center;
 }
@@ -13,6 +14,7 @@ h3 {
   text-align: center;
   font-size: 28px;
 }
+
 form {
   text-align: center;
 }
@@ -21,6 +23,10 @@ form {
   display: inline-block;
   margin: auto;
   text-align: left;
+}
+
+input {
+  margin-bottom: 15px;
 }
 
 p {
@@ -47,4 +53,12 @@ button {
   padding: 10px;
   font-size: 14px;
   margin: auto;
+}
+
+@media only screen and (min-width: 500px){
+  span {
+  display: inline-block;
+  width: 32%;
+  text-align: center;
+  }
 }

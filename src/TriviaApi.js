@@ -6,7 +6,6 @@ class TriviaApi {
   fetchQuestions(count) {
     const url = new URL(TriviaApi.BASE_URL);
     url.searchParams.set('amount', count);
-    console.log(url);
     return fetch(url)
       .then(res => {
         // if non-2xx response, reject promise with status text
@@ -23,7 +22,6 @@ class TriviaApi {
         }
 
         // Otherwise, success! Return the data to automatically resolve the promise successfully.
-        console.log(data);
         return data;
       });
   }

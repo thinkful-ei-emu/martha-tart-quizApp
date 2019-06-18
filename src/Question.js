@@ -34,7 +34,6 @@ class Question {
    *  1 = answered, correct
    */
   getAnswerStatus() {
-    console.log('were checking an answer!');
     if (this.userAnswer === null) {
       return -1;
     } else if (this.userAnswer === this.correctAnswer) {

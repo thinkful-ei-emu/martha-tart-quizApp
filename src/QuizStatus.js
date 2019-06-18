@@ -6,7 +6,6 @@ class QuizStatus extends Renderer {
   }
   template() {
     let html = '';
-    console.log(this.model.active);
     // return some HTML here, utilizing `this.model`
     return `
       <div>

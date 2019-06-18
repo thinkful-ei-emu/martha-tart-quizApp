@@ -42,11 +42,11 @@ class QuizDisplay extends Renderer {
         <input type="radio" name="answer" value="${this.model.getCurrentQuestion().answers[[1]]}" >${this.model.getCurrentQuestion().answers[[1]]}<br>
         <input type="radio" name="answer" value="${this.model.getCurrentQuestion().answers[[2]]}">${this.model.getCurrentQuestion().answers[[2]]}<br>
         <input type="radio" name="answer" value="${this.model.getCurrentQuestion().answers[[3]]}">${this.model.getCurrentQuestion().answers[[3]]}<br>
+        <div class="buttons">
         <button class="submit-question" type="submit">Submit</button>
         </div>
+        </div>
         </form>
-
-
     </div>
         `;
   } 
@@ -58,7 +58,9 @@ class QuizDisplay extends Renderer {
       <p>You got it! The correct answer was:</p>
       <p class="right">${this.model.getCurrentQuestion().correctAnswer}</p>
     </div>
+    <div class="buttons">
     <button class="next-question">Continue</button>
+    </div>
     `;
   }
 
@@ -72,23 +74,37 @@ class QuizDisplay extends Renderer {
       <p>The correct answer was:</p>
       <p class="right">${this.model.getCurrentQuestion().correctAnswer}</p>
     </div>
+    <div class="buttons">
     <button class="next-question">Continue</button>
+    </div>
     `;
   }
 
   _finishedQuiz(){
-    return `
+    if(this.model.isHighScore){
+      return `
     <div>
       <h3>Good job!</h3>
       <p>Your final score was ${this.model.score} out of 5.</p>
       <p>That's a new high score!</p>
+      <div class="buttons">
       <button class="start-quiz" >Play Again</button>
+      </div>
       `;
+    }else {
+      return `
+      <div>
+        <h3>Good job!</h3>
+        <p>Your final score was ${this.model.score} out of 5.</p>
+        <div class="buttons">
+        <button class="start-quiz" >Play Again</button>
+        </div>
+        `;
+    }
   }
 
   template() {
     let html = '';
-    console.log(this.model.active);
     
     if (this.model.asked.length === 0) {
       // Quiz has not started
@@ -122,7 +138,6 @@ class QuizDisplay extends Renderer {
   }
 
   handleStart() {
-    console.log('weve started the game!');
     this.model.startGame();
   }
 
@@ -133,7 +148,6 @@ class QuizDisplay extends Renderer {
   handleSubmitAnswer(event){
     event.preventDefault();
     let answerChoice = $(`input[name='answer']:checked`).val();
-    console.log('answerChocie', answerChoice);
     this.model.answerCurrentQuestion(answerChoice);
   }
 }

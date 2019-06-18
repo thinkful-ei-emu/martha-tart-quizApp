@@ -17,10 +17,14 @@ class Quiz extends Model  {
     this.score = 0;
     this.scoreHistory = [];
     
+    this.isHighScore = false;
+    
   }
 
   finishQuiz(){
-    console.log('finished the quiz');
+    if (this.score > this.highScore()){
+      this.isHighScore = true;
+    }
     this.scoreHistory.push(this.score);
     this.active = false;
   }
@@ -49,17 +53,15 @@ class Quiz extends Model  {
     this.asked = [];
     this.active = false;
     this.score = 0;
+    this.isHighScore = false;
 
     const triviaApi = new TriviaApi();
     triviaApi.fetchQuestions(5)
       .then(data => {
         data.results.forEach(questionData => {
-          console.log('weve gotten questions')
           this.unasked.push(new Question(questionData));
-          console.log(24, this.unasked.length);
           this.nextQuestion();
           this.active = true;
-          console.log(this.active);
           this.update();
         });
       })
@@ -72,7 +74,6 @@ class Quiz extends Model  {
   }
 
   nextQuestion() {
-    console.log('getting next question');
     const currentQ = this.getCurrentQuestion();
     //first question
     if (currentQ && currentQ.getAnswerStatus() === -1) {
@@ -81,12 +82,9 @@ class Quiz extends Model  {
 
     this.asked.unshift(this.unasked.pop());
     if(this.asked.length === 6){
-      console.log(this.unasked.length);
       this.finishQuiz();
     }
-
     this.update();
-
     return true;
   }
 
@@ -96,7 +94,6 @@ class Quiz extends Model  {
   }
 
   answerCurrentQuestion(answerText) {
-    console.log('weve answered a question!');
     const currentQ = this.getCurrentQuestion();
     // Cannot find current question, so fail to answer
     if (!currentQ) return false;
