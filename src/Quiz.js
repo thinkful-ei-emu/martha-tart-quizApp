@@ -19,6 +19,30 @@ class Quiz extends Model  {
     
   }
 
+  finishQuiz(){
+    console.log('finished the quiz');
+    this.scoreHistory.push(this.score);
+    this.active = false;
+  }
+
+  highScore(){
+    let highScore = 0;
+    if (this.scoreHistory.length === 0){
+      return highScore;
+    }else {
+    highScore = Math.max(...this.scoreHistory);
+    return highScore;
+    }
+  }
+
+  activeState(){
+    if (this.active === false){
+      return 'Inactive';
+    }else {
+      return `${this.asked.length} of 5`;
+    }
+  }
+
   // Example method:
   startGame() {
     this.unasked = [];
@@ -32,6 +56,7 @@ class Quiz extends Model  {
         data.results.forEach(questionData => {
           console.log('weve gotten questions')
           this.unasked.push(new Question(questionData));
+          console.log(24, this.unasked.length);
           this.nextQuestion();
           this.active = true;
           console.log(this.active);
@@ -47,6 +72,7 @@ class Quiz extends Model  {
   }
 
   nextQuestion() {
+    console.log('getting next question');
     const currentQ = this.getCurrentQuestion();
     //first question
     if (currentQ && currentQ.getAnswerStatus() === -1) {
@@ -54,6 +80,11 @@ class Quiz extends Model  {
     }
 
     this.asked.unshift(this.unasked.pop());
+    if(this.asked.length === 6){
+      console.log(this.unasked.length);
+      this.finishQuiz();
+    }
+
     this.update();
 
     return true;
