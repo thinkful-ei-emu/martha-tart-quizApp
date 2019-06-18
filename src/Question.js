@@ -1,33 +1,47 @@
-class Question{
-  constructor(text, correctAnswer, wrongAnswers){
-    this.text = text;
-    this.correctAnswer=correctAnswer;
-    wrongAnswers.push(correctAnswer);
-    this.answers = wrongAnswers;
+class Question {
+  constructor(questionData) {
+    this.text = questionData.question;
+    this.answers = [questionData.correct_answer, ...questionData.incorrect_answers];
+    this.correctAnswer = questionData.correct_answer;
     this.userAnswer = null;
+    this._shuffle(this.answers); 
   }
 
-  submitAnswer (answer) {
-    this.userAnswer = answer;
-    return this.answerStatus();
-    //answer string... sets the userAnswer prop 
-    //(elistner in seperate file that calls this to capture the users answer)
-  }
-  //submitAnswer will be called in another function(file) to display result
+  _shuffle(arr) {
+    let currentIndex = arr.length;
+    let temporaryValue, randomIndex;
   
-  answerStatus() {
-    if (this.userAnswer === null){
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+  
+      temporaryValue = arr[currentIndex];
+      arr[currentIndex] = arr[randomIndex];
+      arr[randomIndex] = temporaryValue;
+    }
+  
+    return arr;
+  }
+
+  submitAnswer(answer) {
+    this.userAnswer = answer;
+  }
+
+  /**
+   * Returns integer for question status:
+   * -1 = unanswered
+   *  0 = answered, incorrect
+   *  1 = answered, correct
+   */
+  getAnswerStatus() {
+    if (this.userAnswer === null) {
       return -1;
-    }
-    if (this.userAnswer === this.correctAnswer){
+    } else if (this.userAnswer === this.correctAnswer) {
       return 1;
-    }
-    else {
+    } else {
       return 0;
     }
-    //integer corresponding to the state of the question (uses api response)
-    //-1: unanswered, 0: answered incorrectly, 1: answered correctly
-  }
+  }  
 }
 
 export default Question;

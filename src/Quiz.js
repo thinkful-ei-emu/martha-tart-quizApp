@@ -1,53 +1,76 @@
-import TriviaApi from './TriviaApi';
 import Question from './Question';
+import TriviaApi from './TriviaApi';
 
 class Quiz {
+
+  static DEFAULT_QUIZ_LENGTH = 2;
+
   constructor() {
+    // Array of Question instances
     this.unasked = [];
+    // Array of Question instances
     this.asked = [];
+    this.active = false;
+
+    // TASK: Add more props here per the exercise
     this.score = 0;
     this.scoreHistory = [];
-    this.active = true;
+
   }
 
-  startQuiz (){
-    const triviaApi1 = new TriviaApi();
-    //after hitting start button start displaying questions
-    //populate unasked question with 5 questions (into the array)
-    //active to true
+  // Example method:
+  startGame() {
+    this.unasked = [];
+    this.asked = [];
+    this.active = false;
+    this.score = 0;
 
-    //call api and take data from api to populate unasked array with 5 questions
-    //create 5 instances of questions calling the questions class
-    
-    const questionData = triviaApi1.getQuestions()
-      .then(jsonData => {
-        for (let i = 0; i < 5; i++) {
-          let thisQuestion = jsonData.results[i];
-          let question = new Question(thisQuestion.question, thisQuestion.correct_answer, thisQuestion.incorrect_answers);
-          this.unasked.push(question);
-        }
-      });
+    const triviaApi = new TriviaApi();
+    triviaApi.fetchQuestions(Quiz.DEFAULT_QUIZ_LENGTH)
+      .then(data => {
+        data.results.forEach(questionData => {
+          this.unasked.push(new Question(questionData));
+          this.nextQuestion();
+          this.active = true;
+        });
+      })
+      .catch(err => console.log(err.message));
   }
 
-  updateScore(int){
-    if (int === 1){
-      this.score ++;
+  getCurrentQuestion() {
+    return this.asked[0];
+  }
+
+  nextQuestion() {
+    const currentQ = this.getCurrentQuestion();
+    if (currentQ && currentQ.getAnswerStatus() === -1) {
+      return false;
     }
+
+    this.asked.unshift(this.unasked.pop());
+    return true;
   }
 
-  //trys to shift a question from unasked to asked array 
-  nextQuestion (){
-    console.log(this.unasked);
-    console.log(this.asked);
-
-    
-    console.log(this.unasked.shift());
-    //this.asked.push(this.unasked.shift());
+  increaseScore() {
+    this.score++;    
   }
 
-  finishedQuiz (){
-    //store score into scoreHistory
-    //active to false
+  answerCurrentQuestion(answerText) {
+    const currentQ = this.getCurrentQuestion();
+    // Cannot find current question, so fail to answer
+    if (!currentQ) return false;
+    // Current question has already been answered, so refuse to submit new answer    
+    if (currentQ.getAnswerStatus() !== -1) return false;
+
+    // Otherwise, submit the answer
+    currentQ.submitAnswer(answerText);
+
+    // If correct, increase score
+    if (currentQ.getAnswerStatus() === 1) {
+      this.increaseScore();
+    }
+
+    return true;
   }
 }
 

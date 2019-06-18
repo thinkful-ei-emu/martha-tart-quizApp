@@ -1,9 +1,10 @@
-import Quiz from './Quiz.js';
+import $ from 'jquery';
+import Quiz from './Quiz';
 
-const quiz1 = new Quiz();
+function main() {
+  const q = new Quiz();
+  window.q = q;  // adding `q` to `window`, so you can examine it in console
+}
 
-quiz1.startQuiz();
+$(main);
 
-quiz1.nextQuestion();
-
-//console.log(quiz1.asked);
