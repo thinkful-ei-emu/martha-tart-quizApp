@@ -1,9 +1,10 @@
 import Question from './Question';
 import TriviaApi from './TriviaApi';
+import Model from './lib/Model';
 
-class Quiz {
+class Quiz extends Model  {
 
-  static DEFAULT_QUIZ_LENGTH = 2;
+  static DEFAULT_QUIZ_LENGTH = 5;
 
   constructor() {
     // Array of Question instances
@@ -43,6 +44,7 @@ class Quiz {
 
   nextQuestion() {
     const currentQ = this.getCurrentQuestion();
+    //first question
     if (currentQ && currentQ.getAnswerStatus() === -1) {
       return false;
     }

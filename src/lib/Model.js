@@ -1,7 +1,7 @@
 /**
  * By extending your class with Model, 
  * you declare all its instantiations to 
- * be bindable to one or more "views" 
+ * be bindable to one or more "views" (QuizDisplay and QuizStatus)
  * (instances of Renderer). All models 
  * have the public method update(), 
  * which should be called to confirm any 
