@@ -10,6 +10,8 @@ class QuizDisplay extends Renderer {
   getEvents() {
     return {
       'click .start-quiz': 'handleStart',
+      'click .submit-question': 'handleSubmitAnswer',
+      'click .next-question': 'handleNextQuestion'
     };
   }
 
@@ -34,11 +36,11 @@ class QuizDisplay extends Renderer {
     <div>
       <h3>${this.model.getCurrentQuestion().text}</h3>
       <form>
-        <input type="radio" value="${this.model.getCurrentQuestion().answers[[0]]}>${this.model.getCurrentQuestion().answers[[0]]}<br>
-        <input type="radio" value="${this.model.getCurrentQuestion().answers[[1]]}>${this.model.getCurrentQuestion().answers[[1]]}<br>
-        <input type="radio" value="${this.model.getCurrentQuestion().answers[[2]]}>${this.model.getCurrentQuestion().answers[[2]]}<br>
-        <input type="radio" value="${this.model.getCurrentQuestion().answers[[3]]}>${this.model.getCurrentQuestion().answers[[3]]}<br>
-        <button type="submit">Submit</button>
+        <input type="radio" name="answer" value="${this.model.getCurrentQuestion().answers[[0]]}>${this.model.getCurrentQuestion().answers[[0]]}<br>
+        <input type="radio" name="answer" value="${this.model.getCurrentQuestion().answers[[1]]}>${this.model.getCurrentQuestion().answers[[1]]}<br>
+        <input type="radio" name="answer" value="${this.model.getCurrentQuestion().answers[[2]]}>${this.model.getCurrentQuestion().answers[[2]]}<br>
+        <input type="radio" name="answer" value="${this.model.getCurrentQuestion().answers[[3]]}>${this.model.getCurrentQuestion().answers[[3]]}<br>
+        <button class="submit-question" type="submit">Submit</button>
       </form>
     </div>
         `;
@@ -51,8 +53,8 @@ class QuizDisplay extends Renderer {
       <p>You got it! The correct answer was:</p>
       <p>${this.model.getCurrentQuestion().correctAnswer}</p>
     </div>
-    <button>Continue</button>
-    `
+    <button class="next-question" >Continue</button>
+    `;
   }
 
   _answeredQuestionIncorrectly(){
@@ -65,8 +67,8 @@ class QuizDisplay extends Renderer {
       <p>The correct answer was:</p>
       <p>${this.model.getCurrentQuestion().correctAnswer}</p>
     </div>
-    <button>Continue</button>
-    `
+    <button class="next-question">Continue</button>
+    `;
   }
 
   _finishedQuiz(){
@@ -75,8 +77,8 @@ class QuizDisplay extends Renderer {
       <h3>Good job!</h3>
       <p>Your final score was ${this.model.score} out of 5.</p>
       <p>That's a new high score!</p>
-      <button>Play Again</button>
-      `
+      <button class="start-quiz" >Play Again</button>
+      `;
   }
 
   template() {
@@ -86,10 +88,13 @@ class QuizDisplay extends Renderer {
       // Quiz has not started
       html = this._generateIntro();
     }
-    //if asking a question display the question and answer choices 
-    // if (this.model.getCurrentQuestion().userAnswer === null){
-    //   html = this._activeQuestion();
-    // }
+    //if asking a question display the question and answer choices
+
+
+
+    if (this.model.getCurrentQuestion().userAnswer === null){
+      html = this._activeQuestion();
+    }
 
     // //if user answered question then display feedback
     // if(this.model.getCurrentQuestion().userAnswer) {
@@ -111,6 +116,17 @@ class QuizDisplay extends Renderer {
 
   handleStart() {
     this.model.startNewGame();
+  }
+
+  handleNextQuestion(){
+    this.model.nextQuestion();
+  }
+
+  handleSubmitAnswer(event){
+    event.preventDefault();
+    let answerChoice = $(`input[name='answer']:checked`).val();
+    console.log('answerChocie', answerChoice);
+    this.model.answerCurrentQuestion(answerChoice);
   }
 }
 

@@ -3,7 +3,7 @@ import TriviaApi from './TriviaApi';
 import Model from './lib/Model';
 
 class Quiz extends Model  {
-
+  static DEFAULT_QUIZ_LENGTH = 5; 
   constructor() {
     super();
 
@@ -36,6 +36,7 @@ class Quiz extends Model  {
         });
       })
       .catch(err => console.log(err.message));
+    this.update();
   }
 
   getCurrentQuestion() {
@@ -50,11 +51,14 @@ class Quiz extends Model  {
     }
 
     this.asked.unshift(this.unasked.pop());
+    this.update();
+
     return true;
   }
 
   increaseScore() {
-    this.score++;    
+    this.score++; 
+    this.update();   
   }
 
   answerCurrentQuestion(answerText) {
@@ -71,7 +75,7 @@ class Quiz extends Model  {
     if (currentQ.getAnswerStatus() === 1) {
       this.increaseScore();
     }
-
+    this.update();
     return true;
   }
 }
