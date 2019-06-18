@@ -4,9 +4,9 @@ import Model from './lib/Model';
 
 class Quiz extends Model  {
 
-  static DEFAULT_QUIZ_LENGTH = 5;
-
   constructor() {
+    super();
+
     // Array of Question instances
     this.unasked = [];
     // Array of Question instances
@@ -16,7 +16,7 @@ class Quiz extends Model  {
     // TASK: Add more props here per the exercise
     this.score = 0;
     this.scoreHistory = [];
-
+    
   }
 
   // Example method:
@@ -27,7 +27,7 @@ class Quiz extends Model  {
     this.score = 0;
 
     const triviaApi = new TriviaApi();
-    triviaApi.fetchQuestions(Quiz.DEFAULT_QUIZ_LENGTH)
+    triviaApi.fetchQuestions(5)
       .then(data => {
         data.results.forEach(questionData => {
           this.unasked.push(new Question(questionData));

@@ -1,12 +1,12 @@
 
 class TriviaApi {
-  static BASE_URL = 'https://opentdb.com/api.php';
 
   fetchQuestions(count) {
-    const url = new URL(TriviaApi.BASE_URL);
-    url.searchParams.set('amount', count);
-    console.log(url);
-    return fetch(url)
+    const BASE_URL = 'https://opentdb.com/api.php?amount=5';
+    // const url = new URL(TriviaApi.BASE_URL);
+    // url.searchParams.set('amount', count);
+    console.log(BASE_URL);
+    return fetch(BASE_URL)
       .then(res => {
         // if non-2xx response, reject promise with status text
         if (!res.ok) {
