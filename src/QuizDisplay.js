@@ -19,13 +19,16 @@ class QuizDisplay extends Renderer {
   _generateIntro() {
     return `
       <div>
-        <p>
+        <h3>
           Welcome to the Trivia Quiz
-        </p>
+        </h3>
         <p>
           Test your smarts and see how high you can score!
         </p>
       </div>
+      <form class="quiz-length">
+        <label for="length-select">Number of questions:</label>
+        <input type="number" id="length-select" name="length-select" value="5">
       <div class="buttons">
         <button class="start-quiz">Start Quiz</button>
       </div>
@@ -86,7 +89,7 @@ class QuizDisplay extends Renderer {
       return `
     <div>
       <h3>Good job!</h3>
-      <p>Your final score was ${this.model.score} out of 5.</p>
+      <p>Your final score was ${this.model.score}%.</p>
       <p>That's a new high score!</p>
       <div class="buttons">
       <button class="start-quiz" >Play Again</button>
@@ -96,7 +99,7 @@ class QuizDisplay extends Renderer {
       return `
       <div>
         <h3>Good job!</h3>
-        <p>Your final score was ${this.model.score} out of 5.</p>
+        <p>Your final score was ${this.model.score}%.</p>
         <div class="buttons">
         <button class="start-quiz" >Play Again</button>
         </div>
@@ -139,7 +142,9 @@ class QuizDisplay extends Renderer {
   }
 
   handleStart() {
-    this.model.startGame();
+    event.preventDefault();
+    const length = $('#length-select').val();
+    this.model.startGame(length);
   }
 
   handleNextQuestion(){

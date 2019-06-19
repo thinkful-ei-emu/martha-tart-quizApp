@@ -2,6 +2,9 @@
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   box-sizing: border-box;
 }
+.status {
+  margin-bottom: 100px;
+}
 
 span {
   display: block;
@@ -13,10 +16,12 @@ span {
 h3 {
   text-align: center;
   font-size: 28px;
+  margin-bottom: 50px;
 }
 
 form {
   text-align: center;
+  font-size: 22px;
 }
 
 .answers {
@@ -27,10 +32,13 @@ form {
 
 input {
   margin-bottom: 15px;
+  margin-right: 10px;
 }
 
 p {
   text-align: center;
+  font-size: 22px;
+  margin-bottom: 30px;
 }
 
 .wrong {
@@ -43,16 +51,25 @@ p {
 
 .buttons {
   text-align: center;
+  margin-top: 30px;
+}
+
+input[type="radio"] {
+  margin-top: 11px;
+  vertical-align: middle;
 }
 
 button {
   display: inline-block;
-  background-color:#2554C7;
+  background-color:#2B78E5;
   color: white;
   text-align: center;
   padding: 10px;
   font-size: 14px;
   margin: auto;
+  box-shadow: 2px 2px 2px black;
+  border-radius: 2px;
+  border: 2px solid black;
 }
 
 @media only screen and (min-width: 500px){

@@ -3,7 +3,8 @@ import TriviaApi from './TriviaApi';
 import Model from './lib/Model';
 
 class Quiz extends Model  {
-  static DEFAULT_QUIZ_LENGTH = 5; 
+  static QUIZ_LENGTH = 5; 
+  static NUMBER_RIGHT = 0;
   constructor() {
     super();
 
@@ -43,20 +44,24 @@ class Quiz extends Model  {
     if (this.active === false){
       return 'Inactive';
     }else {
-      return `${this.asked.length} of 5`;
+      return `${this.asked.length} of ${this.QUIZ_LENGTH}`;
     }
   }
 
   // Example method:
-  startGame() {
+  startGame(length) {
     this.unasked = [];
     this.asked = [];
     this.active = false;
     this.score = 0;
     this.isHighScore = false;
+    if (length) {
+      this.QUIZ_LENGTH = length;
+    }
+    this.NUMBER_RIGHT = 0;
 
     const triviaApi = new TriviaApi();
-    triviaApi.fetchQuestions(5)
+    triviaApi.fetchQuestions(this.QUIZ_LENGTH)
       .then(data => {
         data.results.forEach(questionData => {
           this.unasked.push(new Question(questionData));
@@ -81,15 +86,19 @@ class Quiz extends Model  {
     }
 
     this.asked.unshift(this.unasked.pop());
-    if(this.asked.length === 6){
+
+    let quizLength = Number(this.QUIZ_LENGTH)
+    let length = this.asked.length;
+    if(this.asked.length == quizLength+1){
       this.finishQuiz();
     }
+
     this.update();
     return true;
   }
 
   increaseScore() {
-    this.score++; 
+    this.NUMBER_RIGHT ++;
     this.update();   
   }
 
@@ -106,7 +115,9 @@ class Quiz extends Model  {
     // If correct, increase score
     if (currentQ.getAnswerStatus() === 1) {
       this.increaseScore();
+    
     }
+    this.score = Math.ceil((this.NUMBER_RIGHT/this.asked.length)*100);
     this.update();
     return true;
   }
