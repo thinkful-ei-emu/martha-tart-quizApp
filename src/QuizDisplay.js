@@ -33,20 +33,21 @@ class QuizDisplay extends Renderer {
   }
 
   _activeQuestion(){
+    let answer = [];
+    const choice = this.model.getCurrentQuestion().answers;
+    choice.forEach(item => answer.push(`<input type="radio" name="answer" value="${item}" required>${item}<br>`));
+
     return `
     <div>
       <h3>${this.model.getCurrentQuestion().text}</h3>
       <form class="question-form">
       <div class="answers">
-        <input type="radio" name="answer" value="${this.model.getCurrentQuestion().answers[[0]]}" required>${this.model.getCurrentQuestion().answers[[0]]}<br>
-        <input type="radio" name="answer" value="${this.model.getCurrentQuestion().answers[[1]]}" >${this.model.getCurrentQuestion().answers[[1]]}<br>
-        <input type="radio" name="answer" value="${this.model.getCurrentQuestion().answers[[2]]}">${this.model.getCurrentQuestion().answers[[2]]}<br>
-        <input type="radio" name="answer" value="${this.model.getCurrentQuestion().answers[[3]]}">${this.model.getCurrentQuestion().answers[[3]]}<br>
+       ${answer.join(' ')}
         <div class="buttons">
         <button class="submit-question" type="submit">Submit</button>
         </div>
-        </div>
-        </form>
+      </div>
+      </form>
     </div>
         `;
   } 
